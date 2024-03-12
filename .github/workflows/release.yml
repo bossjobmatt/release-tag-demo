@@ -36,10 +36,10 @@ jobs:
           DATE=$(date +"%Y%m%d")
 
           # 当前分支
-          CURRENT_BRANCH='release'
+          CURRENT_BRANCH="release"
 
           # 获取最新版本号
-          LATEST_TAG=$(git tag -l "$DATE-v*" | sort -V | tail -n1)
+          LATEST_TAG=$(git tag -l "${CURRENT_BRANCH}_$DATE_v*" | sort -V | tail -n1)
           # 如果今天还没有版本，从v1开始
           if [ -z "$LATEST_TAG" ]; then
               VERSION=1
@@ -51,7 +51,7 @@ jobs:
           fi
 
           # 创建新的标签名
-          TAG_NAME="${CURRENT_BRANCH}-$DATE-v$VERSION"
+          TAG_NAME="${CURRENT_BRANCH}_$DATE_v$VERSION"
 
           git tag $TAG_NAME
           git push origin $TAG_NAME
