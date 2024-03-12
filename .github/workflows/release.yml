@@ -2,8 +2,7 @@ name: Build and Tag
 
 on:
   push:
-    branches:
-      - [main, staging]
+    branches: [main, staging]
 
 jobs:
   build:
