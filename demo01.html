@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .box {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background-color: red;
+        position: absolute;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="box"></div>
+  </body>
+  <script>
+    function makeDraggable(element) {
+      var posX = 0,
+        posY = 0,
+        mouseX = 0,
+        mouseY = 0;
+
+      element.onmousedown = dragMouseDown;
+
+      function dragMouseDown(e) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        e = e || window.event;
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        document.onmouseup = closeDragElement;
+        document.onmousemove = elementDrag;
+
+        element.style.cursor = "grabbing";
+      }
+
+      function elementDrag(e) {
+        e.preventDefault();
+        e = e || window.event;
+
+        const updatePosition = () => {
+          posX = mouseX - e.clientX;
+          posY = mouseY - e.clientY;
+          mouseX = e.clientX;
+          mouseY = e.clientY;
+
+          // 添加边界检查逻辑（以浏览器视窗为限）
+          var newLeft = element.offsetLeft - posX;
+          var newTop = element.offsetTop - posY;
+
+          if (newTop < 0) newTop = 0;
+          if (newLeft < 0) newLeft = 0;
+          if (newTop + element.offsetHeight > window.innerHeight) {
+            newTop = window.innerHeight - element.offsetHeight;
+          }
+          if (newLeft + element.offsetWidth > window.innerWidth) {
+            newLeft = window.innerWidth - element.offsetWidth;
+          }
+
+          // 设置元素的新位置
+          element.style.top = newTop + "px";
+          element.style.left = newLeft + "px";
+        };
+
+        requestAnimationFrame(updatePosition);
+      }
+
+      function closeDragElement() {
+        document.onmouseup = null;
+        document.onmousemove = null;
+        element.style.cursor = "grab";
+      }
+    }
+
+    const box = document.querySelector(".box");
+    makeDraggable(box);
+  </script>
+</html>

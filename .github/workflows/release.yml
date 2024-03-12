@@ -5,6 +5,12 @@ on:
     branches:
       - main
 
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -26,6 +32,27 @@ jobs:
           git config --global user.name 'github-actions'
           git config --global user.email 'github-actions@github.com'
 
-          TAG_NAME="main-v$(date +'%Y%m%d.%H%M%S')" # 标签名称格式为'v年月日.时分秒'
+          # 当日日期
+          DATE=$(date +"%Y%m%d")
+
+          # 当前分支
+          CURRENT_BRANCH=$(git branch --show-current)
+
+          # 获取最新版本号
+          LATEST_TAG=$(git tag -l "$DATE-v*" | sort -V | tail -n1)
+          # 如果今天还没有版本，从v1开始
+          if [ -z "$LATEST_TAG" ]; then
+              VERSION=1
+          else
+              # 提取现有的最大版本
+              VERSION=${LATEST_TAG#*v}
+              # 递增版本号
+              ((VERSION++))
+          fi
+
+          # 创建新的标签名
+          TAG_NAME="${CURRENT_BRANCH}-$DATE-v$VERSION"
+
           git tag $TAG_NAME
           git push origin $TAG_NAME
+          echo "Created new tag: $TAG_NAME"
