@@ -74,3 +74,29 @@ TAG_NAME="${CURRENT_BRANCH}-$DATE-v$VERSION"
 git tag $TAG_NAME
 echo "Created new tag: $TAG_NAME"
 ```
+
+```bash
+# 当日日期
+DATE=$(date +"%Y%m%d")
+
+# 当前分支
+CURRENT_BRANCH="release"
+
+# 获取最新版本号
+LATEST_TAG=$(git tag -l "${CURRENT_BRANCH}_$DATE_v*" | sort -V | tail -n1)
+# 如果今天还没有版本，从v1开始
+if [ -z "$LATEST_TAG" ]; then
+    VERSION=1
+else
+    # 提取现有的最大版本
+    VERSION=${LATEST_TAG#*v}
+    # 递增版本号
+    ((VERSION++))
+fi
+
+# 创建新的标签名
+TAG_NAME="${CURRENT_BRANCH}_${DATE}_v${VERSION}"
+
+git tag $TAG_NAME
+echo "Created new tag: $TAG_NAME"
+```

@@ -51,7 +51,7 @@ jobs:
           fi
 
           # 创建新的标签名
-          TAG_NAME="${CURRENT_BRANCH}_$DATE_v$VERSION"
+          TAG_NAME="${CURRENT_BRANCH}_${DATE}_v${VERSION}"
 
           git tag $TAG_NAME
           git push origin $TAG_NAME
