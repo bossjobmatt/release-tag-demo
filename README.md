@@ -75,6 +75,8 @@ git tag $TAG_NAME
 echo "Created new tag: $TAG_NAME"
 ```
 
+- v5
+
 ```bash
 # 当日日期
 DATE=$(date +"%Y%m%d")
