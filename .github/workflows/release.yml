@@ -3,7 +3,7 @@ name: Build and Tag
 on:
   push:
     branches:
-      - main
+      - [main, staging]
 
 jobs:
   build:
@@ -30,7 +30,7 @@ jobs:
           DATE=$(date +"%Y%m%d")
 
           # 当前分支
-          CURRENT_BRANCH="release"
+          CURRENT_BRANCH=$(git branch --show-current)
 
           # 获取最新版本号
           LATEST_TAG=$(git tag -l "${CURRENT_BRANCH}_${DATE}_v*" | sort -V | tail -n1)
