@@ -104,3 +104,13 @@ TAG_NAME="${CURRENT_BRANCH}_${DATE}_v${VERSION}"
 git tag $TAG_NAME
 echo "Created new tag: $TAG_NAME"
 ```
+
+## submodule
+
+```bash
+git submodule add <repository-url> <path-to-submodule>
+git submodule init
+git submodule update --remote
+git submodule update --remote --branch=branch_name
+git submodule update --init
+```
