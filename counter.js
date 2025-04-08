@@ -1,5 +1,4 @@
 import { sum } from './git-module-demo/index'
-import { subtract } from '@bossjobmatt/toolkit-utils'
 
 export function setupCounter(element) {
   let counter = 0
@@ -12,4 +11,3 @@ export function setupCounter(element) {
 }
 
 console.log('sum', sum(1,2))
-console.log('subtract', subtract(1,2))
