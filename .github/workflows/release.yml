@@ -68,3 +68,8 @@ jobs:
           git tag $TAG_NAME
           git push origin $TAG_NAME
           echo "Created new tag: $TAG_NAME"
+
+      - name: Create Changelog
+        run: npx changelogithub
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}      
